@@ -3,32 +3,36 @@ Version: 2.0.164
 Release: 1%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
+License: BSD
+Group:  Development/Tools
+Vendor:         VMware, Inc.
+Distribution:   Photon
+
 Source0: https://github.com/CESNET/libyang/archive/refs/tags/v%{version}.tar.gz
 %define sha1 %{name}=2df5e4fa47c53b9d9d0477314664641f57e0025c
-License: BSD
 
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pcre2-devel
 
+%description
+Libyang is YANG data modeling language parser and toolkit
+written (and providing API) in C.
+
 %package devel
 Summary:    Development files for libyang
+
+%description devel
+Files needed to develop with libyang.
 
 %package tools
 Summary:        YANG validator tools
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Conflicts:      %{name} < 1.0.225-3
 
-%description devel
-Files needed to develop with libyang.
-
 %description tools
 YANG validator tools.
-
-%description
-Libyang is YANG data modeling language parser and toolkit
-written (and providing API) in C.
 
 %prep
 %autosetup -p1
@@ -45,7 +49,7 @@ make %{?_smp_mflags}
 
 %install
 cd build
-make DESTDIR=%{buildroot} install
+make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -57,8 +61,6 @@ make DESTDIR=%{buildroot} install
 %exclude %{_libdir}/debug
 %exclude %{_libdir}/*.a
 %exclude %{_libdir}/*.la
-
-
 
 %files tools
 %{_bindir}/yanglint

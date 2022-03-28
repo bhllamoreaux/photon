@@ -1,11 +1,14 @@
 Name: pcre2
 Version: 10.39
 Release: 1%{?dist}
-Summary: PCRE2 - Perl-Compatible Regular Experessions 
+Summary: PCRE2 - Perl-Compatible Regular Experessions
 Url: https://github.com/PhilipHazel/pcre2/
 Source0: https://github.com/PhilipHazel/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.gz
 %define sha1 %{name}=36f235c0cdb992ef68c9a88d45dd2380b1dd921d
 License: BSD
+Group:  Development/Tools
+Vendor:         VMware, Inc.
+Distribution:   Photon
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -30,7 +33,6 @@ Requires:   %{name}%{?_isa} = %{version}-%{release}
 %description devel
 All of the required files to develop with the pcre2 library
 
-
 %package libs
 Summary: Libraries for pcre2
 Group:      System Environment/Libraries
@@ -39,8 +41,8 @@ Group:      System Environment/Libraries
 This package contains minimal set of shared pcre libraries.
 
 %description
-The PCRE2 library is a set of C functions that implement regular expression pattern matching using the same syntax and semantics as Perl 5. 
-PCRE2 has its own native API, as well as a set of wrapper functions that correspond to the POSIX regular expression API. 
+The PCRE2 library is a set of C functions that implement regular expression pattern matching using the same syntax and semantics as Perl 5.
+PCRE2 has its own native API, as well as a set of wrapper functions that correspond to the POSIX regular expression API.
 It comes in three forms, for processing 8-bit, 16-bit, or 32-bit code units, in either literal or UTF encoding.
 
 %prep
@@ -64,7 +66,7 @@ mkdir build
 make %{?_smp_mflags}
 
 %install
-make DESTDIR=%{buildroot} install
+make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -79,7 +81,6 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man1/pcre2test.1*
 %{_mandir}/man1/pcre2-config.1*
 %{_libdir}/*.so.*
-
 
 %files devel
 %defattr(-, root, root)
