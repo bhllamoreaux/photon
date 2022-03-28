@@ -8,7 +8,7 @@ Group:  Development/Tools
 Vendor:         VMware, Inc.
 Distribution:   Photon
 
-Source0: https://github.com/CESNET/libyang/archive/refs/tags/v%{version}.tar.gz
+Source0: https://github.com/CESNET/libyang/archive/refs/tags/%{name}-%{version}.tar.gz
 %define sha1 %{name}=2df5e4fa47c53b9d9d0477314664641f57e0025c
 
 BuildRequires:  cmake

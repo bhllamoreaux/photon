@@ -9,7 +9,7 @@ URL:            https://github.com/CESNET/libnetconf2
 Vendor:         VMware, Inc.
 Distribution:   Photon
 
-Source0:        https://github.com/CESNET/libnetconf2/archive/refs/tags/%{name}-2.1.7.tar.gz
+Source0:        https://github.com/CESNET/libnetconf2/archive/refs/tags/%{name}-%{version}.tar.gz
 %define sha1 %{name}=bac66d22bc7928f5fbd77850775f79f73e4b18b8
 
 BuildRequires:  cmake
