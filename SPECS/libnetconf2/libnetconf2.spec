@@ -35,7 +35,6 @@ servers. NETCONF is the NETwork CONFiguration protocol introduced by IETF.
 %autosetup -p1
 mkdir build
 
-%configure
 %build
 cd build
 cmake \
