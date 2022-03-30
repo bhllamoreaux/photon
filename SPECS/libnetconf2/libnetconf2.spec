@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 Summary:        NETCONF library in C intended for building NETCONF clients and servers.
 Name:           libnetconf2
 Version:        2.1.7
@@ -15,11 +14,17 @@ Source0:        https://github.com/CESNET/libnetconf2/archive/refs/tags/%{name}-
 BuildRequires:  cmake
 BuildRequires:  make
 BuildRequires:  gcc
-BuildRequires:  libtool
 BuildRequires:  libssh-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libyang-devel
 BuildRequires:  pcre2-devel
+
+Requires:  cmocka
+Requires:  valgrind
+
+%description
+libnetconf2 is a NETCONF library in C intended for building NETCONF clients and
+servers. NETCONF is the NETwork CONFiguration protocol introduced by IETF.
 
 %package devel
 Summary: Development libraries for libnetconf2
@@ -27,20 +32,17 @@ Summary: Development libraries for libnetconf2
 %description devel
 Headers of libnetconf library.
 
-%description
-libnetconf2 is a NETCONF library in C intended for building NETCONF clients and
-servers. NETCONF is the NETwork CONFiguration protocol introduced by IETF.
-
 %prep
 %autosetup -p1
-mkdir build
 
 %build
+mkdir build
 cd build
 cmake \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DCMAKE_BUILD_TYPE:String="Release" \
     -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
+    -DENABLE_TESTS=ON \
     ..
 make %{?_smp_mflags}
 
@@ -48,23 +50,28 @@ make %{?_smp_mflags}
 cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
+%check
+make test %{?_smp_mflags}
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
+%defattr(-,root,root)
 %license LICENSE
-%{_libdir}/libnetconf2.so.*
-%exclude %{_libdir}/debug
-%exclude %{_libdir}/*.a
-%exclude %{_libdir}/*.la
+%{_libdir}/%{name}.so.*
+%exclude %dir %{_libdir}/debug
 
 %files devel
-%{_libdir}/libnetconf2.so
-%{_libdir}/pkgconfig/libnetconf2.pc
+%defattr(-,root,root)
+%{_libdir}/%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/*.h
-%{_includedir}/libnetconf2/*.h
-%dir %{_includedir}/libnetconf2/
+%{_includedir}/%{name}/*.h
+%dir %{_includedir}/%{name}
 
 %changelog
 *   Thu Mar 24 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.1.7-1
--   Initial addition
+-   Initial addition. Modified for photon.
+*   Tue Oct 12 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.1.7-1
+-   upstream package

@@ -1,10 +1,10 @@
-Name: libyang
-Version: 2.0.164
-Release: 1%{?dist}
-Summary: YANG data modeling language library
-Url: https://github.com/CESNET/libyang
-License: BSD
-Group:  Development/Tools
+Summary:        YANG data modeling language library
+Name:           libyang
+Version:        2.0.164
+Release:        1%{?dist}
+Url:            https://github.com/CESNET/libyang
+License:        BSD-3-Clause
+Group:          Development/Tools
 Vendor:         VMware, Inc.
 Distribution:   Photon
 
@@ -15,6 +15,9 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pcre2-devel
+Requires:   pcre2
+Requires:   cmocka
+Requires:   valgrind
 
 %description
 Libyang is YANG data modeling language parser and toolkit
@@ -28,22 +31,22 @@ Files needed to develop with libyang.
 
 %package tools
 Summary:        YANG validator tools
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Conflicts:      %{name} < 1.0.225-3
+Requires:       %{name} = %{version}-%{release}
 
 %description tools
 YANG validator tools.
 
 %prep
 %autosetup -p1
-mkdir build
 
 %build
+mkdir build
 cd build
 cmake \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DCMAKE_BUILD_TYPE:String="Release" \
     -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
+    -DENABLE_TESTS=ON \
     ..
 make %{?_smp_mflags}
 
@@ -51,18 +54,21 @@ make %{?_smp_mflags}
 cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
+%check
+make test %{?_smp_mflags}
+
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
+%defattr(-, root, root)
 %license LICENSE
-%{_libdir}/libyang.so.2
-%{_libdir}/libyang.so.2.*
-%exclude %{_libdir}/debug
-%exclude %{_libdir}/*.a
-%exclude %{_libdir}/*.la
+%{_libdir}/%{name}.so.2
+%{_libdir}/%{name}.so.2.*
+%exclude %dir %{_libdir}/debug
 
 %files tools
+%defattr(-, root, root)
 %{_bindir}/yanglint
 %{_bindir}/yangre
 %{_datadir}/man/man1/yanglint.1.gz
@@ -72,9 +78,11 @@ make DESTDIR=%{buildroot} install %{?_smp_mflags}
 %defattr(-, root, root)
 %{_libdir}/*.so.*
 %{_libdir}/*.so
-%{_libdir}/pkgconfig/libyang.pc
-%{_includedir}/libyang/*.h
+%{_libdir}/pkgconfig/%{name}.pc
+%{_includedir}/%{name}/*.h
 
 %changelog
 * Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.0.164-1
-- Initial addition
+- Initial addition. Modified for photon. Needed for libnetconf2
+* Fri Aug 06 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.0.164-1
+- upstream package
