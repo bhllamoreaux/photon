@@ -15,9 +15,13 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pcre2-devel
+%if %{with_check}
+BuildRequires:   cmocka
+BuildRequires:   valgrind
+BuildRequires:   expect
+%endif
+
 Requires:   pcre2
-Requires:   cmocka
-Requires:   valgrind
 
 %description
 Libyang is YANG data modeling language parser and toolkit
@@ -53,8 +57,10 @@ make %{?_smp_mflags}
 %install
 cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
+mv ../models %{buildroot}/usr
 
 %check
+cd build
 make test %{?_smp_mflags}
 
 %post   -p /sbin/ldconfig
@@ -80,6 +86,7 @@ make test %{?_smp_mflags}
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/%{name}/*.h
+/usr/models/*
 
 %changelog
 * Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.0.164-1

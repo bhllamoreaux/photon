@@ -19,8 +19,16 @@ BuildRequires:  openssl-devel
 BuildRequires:  libyang-devel
 BuildRequires:  pcre2-devel
 
-Requires:  cmocka
-Requires:  valgrind
+%if %{with_check}
+BuildRequires:  cmocka
+BuildRequires:  valgrind
+%endif
+
+Requires: libyang-devel
+Requires: openssl-devel
+Requires: openssl
+Requires: glibc-devel
+Requires: pcre2
 
 %description
 libnetconf2 is a NETCONF library in C intended for building NETCONF clients and
@@ -43,6 +51,8 @@ cmake \
     -DCMAKE_BUILD_TYPE:String="Release" \
     -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
     -DENABLE_TESTS=ON \
+    -DENABLE_TLS=ON \
+    -DENABLE_SSH=ON \
     ..
 make %{?_smp_mflags}
 
@@ -51,7 +61,8 @@ cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
 %check
-make test %{?_smp_mflags}
+cd build
+ctest --output-on-failure
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig

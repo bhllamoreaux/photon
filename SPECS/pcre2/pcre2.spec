@@ -18,7 +18,6 @@ BuildRequires:  libtool
 BuildRequires:  make
 BuildRequires:  readline-devel
 BuildRequires:  bzip2-devel
-BuildRequires:  readline-devel
 BuildRequires:  glibc
 
 Requires:       libgcc
