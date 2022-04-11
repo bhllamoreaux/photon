@@ -39,7 +39,7 @@ Requires:   %{name} = %{version}-%{release}
 All of the required files to develop with the pcre2 library
 
 %package libs
-Summary: Libraries for pcre2
+Summary:    Libraries for pcre2
 Group:      System Environment/Libraries
 
 %description libs
@@ -97,4 +97,5 @@ make check %{?_smp_mflags}
 
 %changelog
 *   Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 10.39-1
--   Initial addition - needed for building libnetconf2. Modified from photon/SPECS/pcre.spec for pcre2.
+-   Initial addition of pcre2 - needed for building libnetconf2.
+-   Modified from photon/SPECS/pcre.spec for pcre2.

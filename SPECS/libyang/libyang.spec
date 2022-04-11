@@ -15,10 +15,10 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pcre2-devel
+
 %if %{with_check}
 BuildRequires:   cmocka
 BuildRequires:   valgrind
-BuildRequires:   expect
 %endif
 
 Requires:   pcre2
@@ -90,6 +90,6 @@ make test %{?_smp_mflags}
 
 %changelog
 * Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.0.164-1
-- Initial addition. Modified for photon. Needed for libnetconf2
+- Modified from provided libyang.spec on GitHub. Needed for libnetconf2.
 * Fri Aug 06 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.0.164-1
 - upstream package

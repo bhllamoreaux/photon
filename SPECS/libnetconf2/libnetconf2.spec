@@ -19,16 +19,13 @@ BuildRequires:  openssl-devel
 BuildRequires:  libyang-devel
 BuildRequires:  pcre2-devel
 
+Requires: pcre2
+Requires: libyang
+Requires: libssh
+
 %if %{with_check}
 BuildRequires:  cmocka
-BuildRequires:  valgrind
 %endif
-
-Requires: libyang-devel
-Requires: openssl-devel
-Requires: openssl
-Requires: glibc-devel
-Requires: pcre2
 
 %description
 libnetconf2 is a NETCONF library in C intended for building NETCONF clients and
@@ -61,7 +58,24 @@ cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
 %check
-cd build
+echo $'\n[SAN]\nsubjectAltName=IP:127.0.0.1' >> /etc/ssl/openssl.cnf
+cd tests/data
+openssl req \
+    -out server.csr \
+    -key server.key \
+    -new \
+    -days 1 \
+    -subj "/C=CZ/ST=Some-State/L=Brno/OU=TMC/CN=127.0.0.1"
+openssl x509 \
+    -req -in server.csr \
+    -CA serverca.pem \
+    -CAkey serverca.key \
+    -out server.crt \
+    -days 1 \
+    -sha256 \
+    -extensions SAN \
+    -extfile /etc/ssl/openssl.cnf
+cd ../../build
 ctest --output-on-failure
 
 %post -p /sbin/ldconfig
@@ -83,6 +97,6 @@ ctest --output-on-failure
 
 %changelog
 *   Thu Mar 24 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.1.7-1
--   Initial addition. Modified for photon.
+-   Initial addition to Photon. Modified from provided libnetconf2 GitHub version.
 *   Tue Oct 12 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.1.7-1
 -   upstream package
