@@ -23,7 +23,7 @@ Requires: pcre2
 Requires: libyang
 Requires: libssh
 
-%if %{with_check}
+%if 0%{with_check}
 BuildRequires:  cmocka
 %endif
 
@@ -58,8 +58,9 @@ cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
 
 %check
+%if 0%{?with_check}
 echo $'\n[SAN]\nsubjectAltName=IP:127.0.0.1' >> /etc/ssl/openssl.cnf
-cd tests/data
+pushd tests/data
 openssl req \
     -out server.csr \
     -key server.key \
@@ -75,8 +76,10 @@ openssl x509 \
     -sha256 \
     -extensions SAN \
     -extfile /etc/ssl/openssl.cnf
-cd ../../build
+popd
+cd build
 ctest --output-on-failure
+%endif
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -84,12 +87,11 @@ ctest --output-on-failure
 %files
 %defattr(-,root,root)
 %license LICENSE
-%{_libdir}/%{name}.so.*
+%{_libdir}/%{name}.so*
 %exclude %dir %{_libdir}/debug
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/*.h
 %{_includedir}/%{name}/*.h
@@ -97,6 +99,4 @@ ctest --output-on-failure
 
 %changelog
 *   Thu Mar 24 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.1.7-1
--   Initial addition to Photon. Modified from provided libnetconf2 GitHub version.
-*   Tue Oct 12 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.1.7-1
--   upstream package
+-   Initial addition to Photon. Modified from provided libnetconf2 GitHub repo version.

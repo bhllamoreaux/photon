@@ -23,7 +23,7 @@ BuildRequires:  glibc
 Requires:       libgcc
 Requires:       readline
 Requires:       libstdc++
-Requires:       pcre2-libs >= %{version}
+Requires:       pcre2-libs = %{version}
 Requires:       bzip2-libs
 
 %description
@@ -51,14 +51,14 @@ This package contains minimal set of shared pcre libraries.
 %build
 %configure \
             --docdir=/usr/share/doc/pcre2-%{version} \
-            --enable-unicode-properties       \
+            --enable-unicode-properties \
             --enable-utf \
-            --enable-pcre2-8                   \
+            --enable-pcre2-8  \
             --enable-pcre2-16 \
             --enable-pcre2-32 \
-            --enable-pcregrep-libz            \
-            --enable-pcregrep-libbz2          \
-            --enable-pcretest-libreadline     \
+            --enable-pcregrep-libz \
+            --enable-pcregrep-libbz2 \
+            --enable-pcretest-libreadline \
             --enable-shared \
             --disable-static \
             ..
@@ -71,7 +71,9 @@ find %{buildroot} -name '*.la' -delete
 find %{buildroot} -name '*.a' -delete
 
 %check
+%if 0%{with_check}
 make check %{?_smp_mflags}
+%endif
 
 %post   libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
@@ -81,7 +83,6 @@ make check %{?_smp_mflags}
 %exclude %dir %{_libdir}/debug
 %license LICENCE
 %{_bindir}/pcre2grep
-%{_bindir}/pcre2test
 %{_bindir}/pcre2-config
 
 %files devel
@@ -90,6 +91,7 @@ make check %{?_smp_mflags}
 %{_mandir}/*/*
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/*
+%{_bindir}/pcre2test
 
 %files libs
 %defattr(-, root, root)

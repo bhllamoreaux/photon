@@ -16,7 +16,7 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pcre2-devel
 
-%if %{with_check}
+%if 0%{with_check}
 BuildRequires:   cmocka
 BuildRequires:   valgrind
 %endif
@@ -60,8 +60,10 @@ make DESTDIR=%{buildroot} install %{?_smp_mflags}
 mv ../models %{buildroot}/usr
 
 %check
+%if 0%{with_check}
 cd build
 make test %{?_smp_mflags}
+%endif
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -91,5 +93,3 @@ make test %{?_smp_mflags}
 %changelog
 * Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.0.164-1
 - Modified from provided libyang.spec on GitHub. Needed for libnetconf2.
-* Fri Aug 06 2021 Jakub Ružička <jakub.ruzicka@nic.cz> - 2.0.164-1
-- upstream package
