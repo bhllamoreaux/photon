@@ -71,7 +71,7 @@ find %{buildroot} -name '*.la' -delete
 find %{buildroot} -name '*.a' -delete
 
 %check
-%if 0%{with_check}
+%if %{with_check}
 make check %{?_smp_mflags}
 %endif
 

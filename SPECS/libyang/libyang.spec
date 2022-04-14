@@ -57,10 +57,9 @@ make %{?_smp_mflags}
 %install
 cd build
 make DESTDIR=%{buildroot} install %{?_smp_mflags}
-mv ../models %{buildroot}/usr
 
 %check
-%if 0%{with_check}
+%if %{with_check}
 cd build
 make test %{?_smp_mflags}
 %endif
@@ -88,7 +87,6 @@ make test %{?_smp_mflags}
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_includedir}/%{name}/*.h
-/usr/models/*
 
 %changelog
 * Fri Mar 25 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.0.164-1

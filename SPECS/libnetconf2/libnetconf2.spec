@@ -23,7 +23,7 @@ Requires: pcre2
 Requires: libyang
 Requires: libssh
 
-%if 0%{with_check}
+%if %{with_check}
 BuildRequires:  cmocka
 %endif
 
