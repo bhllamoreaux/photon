@@ -16,7 +16,7 @@ BuildRequires:  gcc
 BuildRequires:  zlib >= 1.2.3
 
 %description
-Fully functional replacement for gzip that exploits multiple processors and multiple cores 
+Fully functional replacement for gzip that exploits multiple processors and multiple cores
 to the hilt when compressing data.
 
 %package devel
@@ -39,10 +39,9 @@ mv pigz unpigz %{buildroot}%{_bindir}
 mv pigz.1 %{buildroot}%{_mandir}
 cp *.h %{buildroot}%{_includedir}
 
-
 %check
 %if %{?with_check}
-make test
+make test %{?_smp_mflags}
 %endif
 
 %post -p /sbin/ldconfig
@@ -59,5 +58,5 @@ make test
 %{_mandir}/*.1
 
 %changelog
-*   Thu Mar 24 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.1.7-1
+*   Thu Mar 24 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 2.7-1
 -   Initial addition to Photon. Modified from provided pigz source version.
