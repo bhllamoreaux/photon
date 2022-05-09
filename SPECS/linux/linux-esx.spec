@@ -2,8 +2,8 @@
 %global photon_checksum_generator_version 1.2
 Summary:        Kernel
 Name:           linux-esx
-Version:        4.19.232
-Release:        2%{?kat_build:.kat}%{?dist}
+Version:        4.19.241
+Release:        1%{?kat_build:.kat}%{?dist}
 License:        GPLv2
 URL:            http://www.kernel.org/
 Group:          System Environment/Kernel
@@ -13,24 +13,24 @@ Distribution:   Photon
 %define uname_r %{version}-%{release}-esx
 
 Source0:        http://www.kernel.org/pub/linux/kernel/v4.x/linux-%{version}.tar.xz
-%define sha1 linux=b5709ae792062b6c175726a88929189ead9df52e
+%define sha512 linux=8ddf5791febed8de146367fcf96d84da15e859d8b8b5de01899415f0080c22fbe18e5eef1a1db681260eb80a60b9e33cd551515d9ec4c065977cf5d3da9045c4
 Source1:        config-esx
 Source2:        initramfs.trigger
 Source3:        pre-preun-postun-tasks.inc
 Source4:        check_for_config_applicability.inc
 # Photon-checksum-generator kernel module
 Source5:        https://github.com/vmware/photon-checksum-generator/releases/photon-checksum-generator-%{photon_checksum_generator_version}.tar.gz
-%define sha1 photon-checksum-generator=20658a922c0beca840942bf27d743955711c043a
+%define sha512 photon-checksum-generator=bc0e3fc039cffc7bbd019da0573a89ed4cf227fd51f85d1941de060cb2a595ea1ef45914419e3238a8ebcc23cdd83193be4f1a294806f954ef8c74cdede8886b
 Source6:        genhmac.inc
 %define i40e_version 2.16.11
 Source7:       https://sourceforge.net/projects/e1000/files/i40e%20stable/%{i40e_version}/i40e-%{i40e_version}.tar.gz
-%define sha1 i40e=8fbfb9d0bf8feec0c74a5dc150613b430921fdcd
-%define ice_version 1.6.4
-Source8:       https://sourceforge.net/projects/e1000/files/ice%20stable/%{ice_version}/ice-%{ice_version}.tar.gz
-%define sha1 ice=9e860bf3cafcabd1d4897e87e749334f73828bad
+%define sha512 i40e=004ec7da665cde30142807c51e4351d041a6df906325ad9e97a01868d1b019e1c9178ea58901e0c2dbbec69a9e00b897a9ecfd116a6d4acf3c7ab87962e2a0aa
 %define iavf_version 4.2.7
-Source9:       https://sourceforge.net/projects/e1000/files/iavf%20stable/%{iavf_version}/iavf-%{iavf_version}.tar.gz
-%define sha1 iavf=5b0f144a60bdfcc5928f78691dc42cb85c2ed734
+Source8:       https://sourceforge.net/projects/e1000/files/iavf%20stable/%{iavf_version}/iavf-%{iavf_version}.tar.gz
+%define sha512 iavf=1f491d9ab76444db1d5f0edbd9477eb3b15fa75f73785715ff8af31288b0490c01b54cc50b6bac3fc36d9caf25bae94fb4ef4a7e73d4360c7031ece32d725e70
+%define ice_version 1.6.4
+Source9:       https://sourceforge.net/projects/e1000/files/ice%20stable/%{ice_version}/ice-%{ice_version}.tar.gz
+%define sha512 ice=e88be3b416184d5c157aecda79b2580403b67c68286221ae154a92fa1d46cacd23aa55365994fa53f266d6df4ca2046cc2fcb35620345fd23e80b90a45ec173c
 
 # common
 Patch0:         linux-4.14-Log-kmsg-dump-on-panic.patch
@@ -945,6 +945,12 @@ ln -sf linux-%{uname_r}.cfg /boot/photon.cfg
 /lib/modules/%{uname_r}/extra/.hmac_generator.ko.xz.hmac
 
 %changelog
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
 *   Mon Mar 21 2022 Ajay Kaher <akaher@vmware.com> 4.19.232-2
 -   Fix for CVE-2022-1016
 *   Mon Mar 07 2022 srinidhira0 <srinidhir@vmware.com> 4.19.232-1

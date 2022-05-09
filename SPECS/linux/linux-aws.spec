@@ -2,8 +2,8 @@
 %global photon_checksum_generator_version 1.2
 Summary:        Kernel
 Name:           linux-aws
-Version:        4.19.232
-Release:        2%{?kat_build:.kat}%{?dist}
+Version:        4.19.241
+Release:        1%{?kat_build:.kat}%{?dist}
 License:    	GPLv2
 URL:        	http://www.kernel.org/
 Group:        	System Environment/Kernel
@@ -13,14 +13,14 @@ Distribution: 	Photon
 %define uname_r %{version}-%{release}-aws
 
 Source0:        http://www.kernel.org/pub/linux/kernel/v4.x/linux-%{version}.tar.xz
-%define sha1 linux=b5709ae792062b6c175726a88929189ead9df52e
+%define sha512 linux=8ddf5791febed8de146367fcf96d84da15e859d8b8b5de01899415f0080c22fbe18e5eef1a1db681260eb80a60b9e33cd551515d9ec4c065977cf5d3da9045c4
 Source1:        config-aws
 Source2:        initramfs.trigger
 Source3:        pre-preun-postun-tasks.inc
 Source4:        check_for_config_applicability.inc
 # Photon-checksum-generator kernel module
 Source5:        https://github.com/vmware/photon-checksum-generator/releases/photon-checksum-generator-%{photon_checksum_generator_version}.tar.gz
-%define sha1 photon-checksum-generator=20658a922c0beca840942bf27d743955711c043a
+%define sha512 photon-checksum-generator=bc0e3fc039cffc7bbd019da0573a89ed4cf227fd51f85d1941de060cb2a595ea1ef45914419e3238a8ebcc23cdd83193be4f1a294806f954ef8c74cdede8886b
 Source6:        genhmac.inc
 
 # common
@@ -492,6 +492,12 @@ ln -sf %{name}-%{uname_r}.cfg /boot/photon.cfg
 %endif
 
 %changelog
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
+*   Fri May 06 2022 Brennan Lamoreaux <blamoreaux@vmware.com> 4.19.241-1
+-   Update to version 4.19.241
 *   Mon Mar 21 2022 Ajay Kaher <akaher@vmware.com> 4.19.232-2
 -   Fix for CVE-2022-1016
 *   Mon Mar 07 2022 srinidhira0 <srinidhir@vmware.com> 4.19.232-1
